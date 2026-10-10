@@ -1,0 +1,200 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261010160311
+Username: RICHUS\riswa
+RunAs User: RICHUS\riswa
+Configuration Name: 
+Machine: RICHUS (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 9512
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is .\part4-session.log
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh up'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe pod backend-7948fd6b4b-m8d2r -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> docker image ls
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> docker inspect ebinterview/eb-debug-app:1.0.1
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> docker inspect ebinterview/eb-debug-app:1.0.1 '{{.Config.User}}'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> docker image inspect ebinterview/eb-debug-app:1.0.1 --format '{{.Config.User}}'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> $image = 'ebinterview/eb-debug-app:1.0.1'
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> $container = docker create $image
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> $archive = Join-Path $env:TEMP 'eb-debug-app.tar'
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> try {
+    docker export --output $archive $container
+    tar -xOf $archive etc/passwd | Select-String '^nonroot:'
+}
+finally {
+    docker rm $container | Out-Null
+    Remove-Item $archive -ErrorAction SilentlyContinue
+}
+
+
+nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin
+
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+  FAIL  backend does not answer on http://backend:8080/healthz
+  FAIL  gateway /status does not report backend=ok
+  FAIL  reporter /report does not return a pod count
+
+4 check(s) failing, 7 passing. Keep digging — every failure is a symptom.
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl logs reporter-5f854d49d9-2pfjs -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe pod reporter-5f854d49d9-2pfjs -n debug-lab -o yaml
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe pod reporter-5f854d49d9-2pfjs -o yaml -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe pod reporter-6f8bff6b8d-d4kj4 -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl delete pod reporter-6f8bff6b8d-d4kj4 -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh up'
+  ./scenario.sh verify
+
+Lab is (partially) installed. Investigate with kubectl, fix the chart,
+re-run './scenario.sh up' to apply your fixes, and './scenario.sh verify'
+to check progress.
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get svc -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describr svc backend -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe svc backend -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl port-forward svc backend 2001:8080
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl port-forward svc/backend 2001:8080
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl port-forward svc/backend 2001:8080 -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl logs reporter-5f854d49d9-2pfjs -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> ls
+
+
+    Directory: C:\Users\riswa\Downloads\Work\Devops-assignment\lab
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        10-10-2026     13:41                broken-chart
+d-----        10-10-2026     13:41                cluster-state
+-a----        10-10-2026     13:41           1226 FINDINGS.md
+-a----        10-10-2026     16:29           5043 part4-session.log
+-a----        10-10-2026     15:20           6817 part5-session.log
+-a----        10-10-2026     13:41           4882 scenario.sh
+
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe pod reporter-5f854d49d9-2pfjs -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl logs deployment/reporter -n debug-lab --tail=8; kubectl get deployment reporter -n debug-lab -o jsonpath='{.spec.template.spec.containers[0].env}'
+
+etes.io/serviceaccount/ca.crt"},{"name":"APP_MODE","value":"reporter"},{"name":"APP_NAME","value":"reporter"},{"name":"VERSION","value":"2.0.0"}]
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get sa -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl describe sa reporter -n debug-lab 
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab --as=system:serviceaccount:debug-lab:reporter -o name
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh up'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pvc -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh up'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> pwd
+
+Path
+----
+C:\Users\riswa\Downloads\Work\Devops-assignment\lab
+
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> helm upgrade --install debug-lab .\broken-chart -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl logs reporter-5f854d49d9-dtm58 -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl delete pods --all -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> kubectl get pods -n debug-lab
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> & "C:\Program Files\Git\bin\bash.exe" -lc 'cd /c/Users/riswa/Downloads/Work/Devops-assignment/lab && ./scenario.sh verify'
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> stop transcript
+stop : The term 'stop' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ stop transcript
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (stop:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+stop : The term 'stop' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path
+was included, verify that the path is correct and try again.
+At line:1 char:1
++ stop transcript
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (stop:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> stop transcript.
+stop : The term 'stop' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ stop transcript.
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (stop:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+stop : The term 'stop' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path
+was included, verify that the path is correct and try again.
+At line:1 char:1
++ stop transcript.
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (stop:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\riswa\Downloads\Work\Devops-assignment\lab> Stop-transcript
+**********************
+Windows PowerShell transcript end
+End time: 20261010171840
+**********************
